@@ -1,0 +1,50 @@
+
+.jumbotron{
+    color: white;
+    background-color: cornflowerblue;
+    padding: 30px;
+    }
+p{
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.card-title {
+    color: white;
+    background-color: cornflowerblue;
+    height: 37px;
+}
+
+.form-group row{
+    margin-top: 15px;
+    margin-bottom: 5px;
+
+}
+
+#AT {
+    width: 97%;
+    margin-left: 15px;
+    margin-top:15px;
+}
+
+
+input{
+    width: 38%;
+}
+#submit{
+    background-color: white;
+    color:cornflowerblue;
+    font-weight: bold;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}    
+header{
+    font-weight: bold;
+    font-size: 20px;
+}
+.panel-footer{
+    text-align: center;
+    color: white;
+    background-color: cornflowerblue;
+    font-weight: bold;
+}
