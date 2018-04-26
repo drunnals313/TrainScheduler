@@ -8,23 +8,22 @@ var config = {
     messagingSenderId: "429505589767"
 };
 
-
   
 firebase.initializeApp(config);
 
 var database = firebase.database();
 
-// 2. Button for adding Employees
+// Button for adding trains
 $("#add-train-btn").on("click", function(event) {
 event.preventDefault();
 
 // Grabs user input
 var tName = $("#train-name-input").val().trim();
 var tDest = $("#destination-input").val().trim();
-var firstT = moment($("#first-train-input").val().trim(), "DD/MM/YY").format("X");
+var firstT = moment($("#first-train-input").val().trim(), "HHmm").format("HHmm");
 var tFreq = $("#frequency-input").val().trim();
 
-// Creates local "temporary" object for holding employee data
+// Creates local "temporary" object for holding train data
 var newT = {
     name: tName,
     destination: tDest,
@@ -32,7 +31,7 @@ var newT = {
     frequency: tFreq
 };
 
-// Uploads employee data to the database
+// Uploads train data to the database
 database.ref().push(newT);
 
 // Logs everything to console
@@ -51,36 +50,40 @@ $("#first-train-input").val("");
 $("#frequency-input").val("");
 });
 
-// 3. Create Firebase event for adding employee to the database and a row in the html when a user adds an entry
+// 3. Create Firebase event for adding train to the database and a row in the html when a user adds an entry
 database.ref().on("child_added", function(childSnapshot, prevChildKey) {
 
-console.log(childSnapshot.val());
+    console.log(childSnapshot.val());
 
-// Store everything into a variable.
-var tName = childSnapshot.val().name;
-var tDest = childSnapshot.val().destination;
-var firstT = childSnapshot.val().first;
-var tFreq = childSnapshot.val().frequency;
+    // Store everything into a variable.
+    var tName = childSnapshot.val().name;
+    var tDest = childSnapshot.val().destination;
+    var firstT = childSnapshot.val().first;
+    var tFreq = childSnapshot.val().frequency;
 
-// Employee Info
-console.log(tName);
-console.log(tDest);
-console.log(firstT);
-console.log(tFreq);
+    // Train Info
+    console.log(tName);
+    console.log(tDest);
+    console.log(firstT);
+    console.log(tFreq);
 
-// Prettify the employee first
-var firstTPretty = moment.unix(firstT).format("HH:mm");
+    //var firstTPretty = moment.unix(firstT).format("HH:mm");
+    var firstTPretty = moment(firstT, "HH:mm")
 
-// Calculate the months worked using hardcore math
-// To calculate the months worked
-var nextArrival = moment().diff(moment(firstT, "X"), "time");
-console.log(nextArrival);
+    // Difference between the times
+    var diffTime = moment().diff(moment(firstTPretty), "minutes");
 
-// Calculate the total billed frequency
-var minutesAway = nextArrival * tFreq;
-console.log(minutesAway);
+    // Time apart
+    var tRemainder = diffTime % tFreq;
+    // console.log(tRemainder);
 
-// Add each train's data into the table
-$("#train-table > tbody").append("<tr><td>" + tName + "</td><td>" + tDest + "</td><td>" + nextArrival + "</td><td>" + tFreq + "</td><td>" + minutesAway + "</td></tr>");
+    // Minutes Until Train
+    var minutesAway = tFreq - tRemainder;
+        console.log(minutesAway);
+    // Next Train
+    var nextT = moment().add(minutesAway, "minutes");
+
+    var nextArrival = moment(nextT).format("HH:mm");
+
+    $("#train-table > tbody").append("<tr><td>" + tName + "</td><td>" + tDest + "</td><td>" + tFreq + " min</td><td>" + nextArrival + "</td><td>" + minutesAway + " min</td></tr>");
 });
-//<td>" firstTPretty + "</td>
