@@ -83,7 +83,7 @@ database.ref().on("child_added", function(childSnapshot, prevChildKey) {
     // Next Train
     var nextT = moment().add(minutesAway, "minutes");
 
-    var nextArrival = moment(nextT).format("HH:mm");
+    var nextArrival = moment(nextT).format("HH:mm A");
 
     $("#train-table > tbody").append("<tr><td>" + tName + "</td><td>" + tDest + "</td><td>" + tFreq + " min</td><td>" + nextArrival + "</td><td>" + minutesAway + " min</td></tr>");
 });
