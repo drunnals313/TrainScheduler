@@ -21,7 +21,7 @@ event.preventDefault();
 var tName = $("#train-name-input").val().trim();
 var tDest = $("#destination-input").val().trim();
 var firstT = moment($("#first-train-input").val().trim(), "HHmm").format("HHmm");
-var tFreq = $("#frequency-input").val().trim();
+var tFreq = $("#frequency-input").val().trim();  //, moment(       "minutes").format("mm")
 
 // Creates local "temporary" object for holding train data
 var newT = {
@@ -68,7 +68,10 @@ database.ref().on("child_added", function(childSnapshot, prevChildKey) {
     console.log(tFreq);
 
     //var firstTPretty = moment.unix(firstT).format("HH:mm");
-    var firstTPretty = moment(firstT, "HH:mm")
+    var firstTPretty = moment(firstT, "hh:mm").subtract(
+        1,
+        "years"
+      );
 
     // Difference between the times
     var diffTime = moment().diff(moment(firstTPretty), "minutes");
@@ -83,7 +86,8 @@ database.ref().on("child_added", function(childSnapshot, prevChildKey) {
     // Next Train
     var nextT = moment().add(minutesAway, "minutes");
 
-    var nextArrival = moment(nextT).format("HH:mm A");
+    var nextArrival = moment(nextT).format("hh:mm a");
 
     $("#train-table > tbody").append("<tr><td>" + tName + "</td><td>" + tDest + "</td><td>" + tFreq + " min</td><td>" + nextArrival + "</td><td>" + minutesAway + " min</td></tr>");
 });
+
