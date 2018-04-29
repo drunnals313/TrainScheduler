@@ -21,7 +21,7 @@ event.preventDefault();
 var tName = $("#train-name-input").val().trim();
 var tDest = $("#destination-input").val().trim();
 var firstT = moment($("#first-train-input").val().trim(), "HHmm").format("HHmm");
-var tFreq = $("#frequency-input").val().trim();  //, moment(       "minutes").format("mm")
+var tFreq = $("#frequency-input").val().trim();  //, moment(       "minutes").format("mm")    this formatting limited the input to only accept 2 digits or if I did mmmm it would copy the first 2 digits example 3600 would be logged as 3636
 
 // Creates local "temporary" object for holding train data
 var newT = {
